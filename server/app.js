@@ -6,7 +6,6 @@ require('./models/donor')
 const password='@N6qn9quy*emJNE'
 const MongoUri='mongodb+srv://covid_admin:@N6qn9quy*emJNE@cluster0.34hkp.mongodb.net/<dbname>?retryWrites=true&w=majority'
 
-app.use(bodyParser.json())
 const Donor=mongoose.model('don_model')
 mongoose.connect(MongoUri,{
     useNewUrlParser:true,

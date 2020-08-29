@@ -6,7 +6,8 @@ const DonorSchema=new mongoose.Schema({
     itemName:String,
     price:String,
     quantity:String,
-    location:String
+    location:String,
+    avail:String
 })
 mongoose.model("don_model",DonorSchema)
 
