@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 
 
 const DonorSchema=new mongoose.Schema({
+    name:String,
     itemName:String,
     price:String,
     quantity:String,

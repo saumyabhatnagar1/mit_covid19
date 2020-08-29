@@ -10,7 +10,8 @@ app.use(bodyParser.json())
 const Donor=mongoose.model('don_model')
 mongoose.connect(MongoUri,{
     useNewUrlParser:true,
-    useUnifiedTopology:true
+    useUnifiedTopology:true,
+    useFindAndModify:false
 })
 
 mongoose.connection.on("connected",()=>{
@@ -21,12 +22,51 @@ mongoose.connection.on("error",(err)=>{
 })
 
 
-app.get('/',(req,res)=>{
-    res.send('working')
+app.get('/fetchAll',(req,res)=>{
+    Donor.find({}).then((data)=>{
+        console.log(data)
+        res.send('fetched')
+    }).catch((err)=>{
+        console.log(err)
+    })
 })
-app.post('/send',(req,res)=>{
-    console.log(body)
+app.post('/send-data',(req,res)=>{
+    //console.log(req.body)
+    const donor=new Donor({
+        itemName:req.body.itemName,
+        quantity:req.body.quantity,
+        price:req.body.quantity,
+        location:req.body.location,
+        name:req.body.name
+    })
+    donor.save().then(data=>{console.log(data)}).catch((err)=>{
+        console.log(err)
+    })  
     res.send('posted')
+})
+app.delete('/delete',(req,res)=>{
+    Donor.findByIdAndRemove(req.body.id).then((data)=>{
+        console.log(data)
+        res.send('deleted')
+    }).catch((err)=>{
+        console.log(err)
+    })
+})
+
+app.patch('/update',(req,res)=>{
+    Donor.findByIdAndUpdate(req.body.id,{
+        itemName:req.body.itemName,
+        quantity:req.body.quantity,
+        price:req.body.quantity,
+        location:req.body.location,
+        name:req.body.name
+    }).then((data)=>{
+        console.log(data)
+        res.send('updated')
+    }).catch((err)=>{
+        console.log(err)
+    })
+
 })
 
 
