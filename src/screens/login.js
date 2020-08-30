@@ -4,13 +4,13 @@ import Header from '../components/header'
 import { Button,Card,Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AntDesign } from '@expo/vector-icons';
-
+import {useNavigation} from '@react-navigation/native'
 
 
 const Login=()=>{
     const [gid,setgid]=useState('')
     const [pass,setpass]=useState('')
-
+    const navigation=useNavigation()
     return(
         <View style={{flex:1}}>
         <Header/>
@@ -32,8 +32,9 @@ const Login=()=>{
             />
             
             <Button
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-            title='SIGN IN'/>
+            onPress={()=>{navigation.navigate('rootHome')}}
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0,backgroundColor:'#6ECF62'}}
+            title='Sign In'/>
         </Card>
         </View>
     )

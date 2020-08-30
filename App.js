@@ -22,23 +22,23 @@ const RootHome=()=>{
     tabBarIcon: ({ focused, color, size }) => {
       let iconName;
 
-      if (route.name === 'welcome') {
+      if (route.name === 'Welcome') {
         iconName = 'home';
       } else if (route.name === 'Profile') {
         iconName = 'profile';
       }
 
-      return <AntDesign name={iconName} size={24} color="black" />
+      return <AntDesign name={iconName} size={24} color={color} />
     },
   })}
   tabBarOptions={{
-    activeTintColor: 'blue',
+    activeTintColor: '#6ECF62',
     inactiveTintColor: 'gray',
   }}
   
   
   >
-    <Tabs.Screen name="welcome" component={Welcome}></Tabs.Screen>
+    <Tabs.Screen name="Welcome" component={Welcome}></Tabs.Screen>
     <Tabs.Screen name="Profile" component={Profile}></Tabs.Screen>
   </Tabs.Navigator>
   )
@@ -53,6 +53,8 @@ export default function App() {
    
 <NavigationContainer>
   <Stack.Navigator headerMode="none">
+    <Stack.Screen name="home" component={Home}></Stack.Screen>
+    <Stack.Screen name="login" component={Login}></Stack.Screen>
     <Stack.Screen name="rootHome" component={RootHome}></Stack.Screen>
     <Stack.Screen name="bookslot" component={BookSlot}></Stack.Screen>
   </Stack.Navigator>

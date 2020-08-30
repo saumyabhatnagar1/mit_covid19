@@ -19,12 +19,12 @@ mongoose.connection.on("connected",()=>{
 mongoose.connection.on("error",(err)=>{
     console.log(err)
 })
+app.use(bodyParser.json())
 
 
 app.get('/fetchAll',(req,res)=>{
     Donor.find({}).then((data)=>{
-        console.log(data)
-        res.send('fetched')
+        res.send(data)
     }).catch((err)=>{
         console.log(err)
     })
@@ -32,16 +32,13 @@ app.get('/fetchAll',(req,res)=>{
 app.post('/send-data',(req,res)=>{
     //console.log(req.body)
     const donor=new Donor({
-        itemName:req.body.itemName,
-        quantity:req.body.quantity,
-        price:req.body.quantity,
-        location:req.body.location,
-        name:req.body.name
+        name:req.body.name,
+        recDate:req.body.recDate,
+        recTime:req.body.recTime
     })
-    donor.save().then(data=>{console.log(data)}).catch((err)=>{
+    donor.save().then(data=>{res.send(data)}).catch((err)=>{
         console.log(err)
     })  
-    res.send('posted')
 })
 app.delete('/delete',(req,res)=>{
     Donor.findByIdAndRemove(req.body.id).then((data)=>{
@@ -54,11 +51,9 @@ app.delete('/delete',(req,res)=>{
 
 app.patch('/update',(req,res)=>{
     Donor.findByIdAndUpdate(req.body.id,{
-        itemName:req.body.itemName,
-        quantity:req.body.quantity,
-        price:req.body.quantity,
-        location:req.body.location,
-        name:req.body.name
+        name:req.body.name,
+        recDate:req.body.recdate,
+        recTime:req.body.recTime
     }).then((data)=>{
         console.log(data)
         res.send('updated')

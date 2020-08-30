@@ -1,33 +1,55 @@
 import React, { useState } from 'react'
-import {View,StyleSheet,Text,Image} from 'react-native'
+import {View,StyleSheet,Text,Image,FlatList,ScrollView} from 'react-native'
 import Header from '../components/header'
 import { Button,Card,Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AntDesign } from '@expo/vector-icons';
 import Constant from 'expo-constants'
 import {useNavigation} from '@react-navigation/native'
-import { DataTable } from 'react-native-paper';
+import { DataTable,FAB } from 'react-native-paper';
 const Welcome=()=>{
+
+    const [data,setData]=React.useState([])
+    const [loading,setLoading]=React.useState(true)
+
+    const fetchData=()=>{
+
+        fetch('http://44ecc760d88b.ngrok.io/fetchAll').then(res=>res.json()).then((items)=>{
+            setData(items)
+            setLoading(false)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
+
+    React.useEffect(()=>{
+        fetchData()
+    },[])
     const navigation =useNavigation()
     return(
+
+
         <View style={{flex:1}}>
           <View style={{
                 padding:5,
                 flexDirection:'row',
-                justifyContent:'space-around',
+                justifyContent:'space-between',
                 elevation:2,
-                backgroundColor:'#3D94F1',
+                alignItems:'center',
                 marginTop:Constant.statusBarHeight,
-                height:80
+                height:80,
+                padding:10
             }}>
-                <View style={{flexDirection:'row'}}>
-                <Text style={{fontSize:28,fontWeight:'bold'}}>Welcome To Samtript</Text>
+                
+                <Text style={{fontSize:24,fontWeight:'bold'}}>Welcome To Samtript</Text>
                 <Image
-                style={{height:50,width:50}}
+                style={{height:50,width:50,borderRadius:50}}
                 source={{uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQRiusYm4lan87FnRtKM-6tnsaagLGkBzE8eg&usqp=CAU'}}
                 />
-                </View>
+                
             </View>
+            
+               
 
             <Card>
                 <Card.Title>Last Month Usage</Card.Title>
@@ -59,13 +81,37 @@ const Welcome=()=>{
                 label="1-2 of 6"
                 />
                 </DataTable>
-                <Button
-            title="Book Slot"
-            onPress={()=>{navigation.navigate('bookslot')}}
-            />
             </Card>
-           
+            <Text style={{alignSelf:'center',marginTop:5,fontSize:25,fontWeight:'bold'}}>Reservations</Text>
+
+            
+                <FlatList
+                
+                data={data}
+                onRefresh={()=>fetchData()}
+                contentContainerStyle={{padding:5}}
+                refreshing={loading}
+                renderItem={({item})=>{
+                    return(
+                        <Card>
+                            <Card.Title>Slot Details</Card.Title>
+                            <Text>Date: {item.recDate}</Text>
+                            <Text>Time: {item.recTime}</Text>
+                        </Card>
+                    )
+                }}
+                keyExtractor={(item)=>{item._id}}
+                />
+            
+            <Button
+                onPress={()=>navigation.navigate('bookslot')}
+                buttonStyle={{backgroundColor:'#6ECF62'}}
+                title="Book A New Slot"
+                />
+            
+                
         </View>
+
     )
 }
 

@@ -1,16 +1,42 @@
 import React,{useState} from 'react'
-import {View,StyleSheet,Text,Image} from 'react-native'
+import {View,StyleSheet,Text,Image,Alert} from 'react-native'
 import Header from '../components/header'
 import { Button, Input,Card } from 'react-native-elements';
 import { exp } from 'react-native-reanimated';
 import {useNavigation} from '@react-navigation/native'
 import DateTimePicker from '@react-native-community/datetimepicker';
+
+
 const BookSlot=()=>{
+
+
+
     const [edate,setedate]=useState('')
     const [etime,setetime]=useState('')
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
+
+
+
+    const SubmitData=()=>{
+
+        fetch('http://44ecc760d88b.ngrok.io/send-data',{
+            method:'post',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                name:'Ramu Bai',
+                recDate:edate,
+                recTime:etime
+            })
+        }).then(res=>res.json()).then((data)=>{
+            Alert.alert(`${data.name}, Slot Booked`)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
     
     const navigation=useNavigation()
     const onChange = (event, selectedDate) => {
@@ -70,7 +96,8 @@ const BookSlot=()=>{
           )}
           <Button
           title="Book Slot"
-          buttonStyle={{marginTop:15}}
+          onPress={()=>SubmitData()}
+          buttonStyle={{marginTop:15,backgroundColor:'#6ECF62'}}
           />
             </Card>
             

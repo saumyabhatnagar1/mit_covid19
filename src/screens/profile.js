@@ -6,9 +6,10 @@ import { exp } from 'react-native-reanimated';
 
 const Profile=()=>{
     return (
-        <View>
-            <Text>
-                This is the profile page
+        <View style={{flex:1}}>
+            <Header/>
+            <Text style={{alignSelf:'center',fontSize:25,marginTop:100}}>
+                Coming Soon....
             </Text>
         </View>
     )
